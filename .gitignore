@@ -1,0 +1,42 @@
+# Arquivos compilados / Build
+.gradle/
+build/
+out/
+bin/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+*.log
+
+# Arquivos de ambiente / credenciais locais (Banco de Dados, etc)
+.env
+.env.local
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# OS (Mac / Windows)
+.DS_Store
+Thumbs.db
