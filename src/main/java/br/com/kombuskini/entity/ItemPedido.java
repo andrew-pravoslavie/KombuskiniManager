@@ -1,4 +1,5 @@
 package br.com.kombuskini.entity;
 
 public class ItemPedido {
+
 }

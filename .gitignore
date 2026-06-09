@@ -11,6 +11,7 @@ bin/
 # Arquivos de ambiente / credenciais locais (Banco de Dados, etc)
 .env
 .env.local
+.temp
 
 # IntelliJ IDEA
 .idea/
