@@ -9,6 +9,8 @@ import br.com.kombuskini.entity.Cliente;
 import br.com.kombuskini.entity.Kombuskini;
 import br.com.kombuskini.entity.Pedido;
 import br.com.kombuskini.util.AlertHelper;
+import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -57,6 +59,7 @@ public class VendaController {
                 try {
                     Pedido completo = pedidoDAO.findBy(newSel.getId()).orElse(newSel);
                     boundary.preencherDetalhes(completo);
+                    Platform.runLater(() -> boundary.getTxtQuantidade().requestFocus());
                 } catch (Exception e) {
                     boundary.preencherDetalhes(newSel);
                 }
@@ -64,6 +67,7 @@ public class VendaController {
                 boundary.limparDetalhes();
             }
         });
+
 
         // Botão Novo Pedido
         boundary.getBtnNovoPedido().setOnAction(e -> {
@@ -78,6 +82,7 @@ public class VendaController {
                 AlertHelper.showInfo("Sucesso", null, "Pedido #" + novo.getId() + " aberto em Rascunho!");
                 recarregarDados();
                 boundary.getTblPedidos().getSelectionModel().select(novo);
+                Platform.runLater(() -> boundary.getCmbProduto().requestFocus());
             } catch (Exception ex) {
                 AlertHelper.showError("Erro", "Erro ao abrir pedido", ex.getMessage());
             }

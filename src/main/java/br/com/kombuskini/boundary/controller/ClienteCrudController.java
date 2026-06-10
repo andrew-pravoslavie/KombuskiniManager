@@ -27,7 +27,8 @@ public class ClienteCrudController {
         configurarEventos();
     }
 
-    public Parent getView() {
+    public Parent getView()
+    {
         return boundary;
     }
 

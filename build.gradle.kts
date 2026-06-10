@@ -23,3 +23,8 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register<JavaExec>("initDb") {
+    mainClass.set("br.com.kombuskini.util.DbInitializer")
+    classpath = sourceSets["main"].runtimeClasspath
+}
