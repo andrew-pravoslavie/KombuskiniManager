@@ -114,4 +114,8 @@ public class Pedido {
     public StatusPedido getStatus() {
         return status;
     }
+
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
 }
