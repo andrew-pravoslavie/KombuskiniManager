@@ -80,12 +80,12 @@ public class MySQLPedidoDAO implements PedidoDAO {
                     int clienteId = rs.getInt("cliente_id");
                     String statusStr = rs.getString("status");
 
-                    // Criar cliente placeholder
-                    Cliente cliente = new Cliente(clienteId, "Cliente " + clienteId, "99999-9999", null, null);
+                    // Busca o cliente real no banco de dados
+                    Cliente cliente = buscarCliente(conn, clienteId);
                     Pedido pedido = new Pedido(id, cliente);
 
                     // Carregar itens do pedido enquanto o status temporário é RASCUNHO
-                    carregarItens(pedido);
+                    carregarItens(conn, pedido);
 
                     // Restaurar status real do banco de dados
                     pedido.setStatus(Pedido.StatusPedido.valueOf(statusStr));
@@ -112,10 +112,10 @@ public class MySQLPedidoDAO implements PedidoDAO {
                 int clienteId = rs.getInt("cliente_id");
                 String statusStr = rs.getString("status");
 
-                Cliente cliente = new Cliente(clienteId, "Cliente " + clienteId, "99999-9999", null, null);
+                Cliente cliente = buscarCliente(conn, clienteId);
                 Pedido pedido = new Pedido(id, cliente);
 
-                carregarItens(pedido);
+                carregarItens(conn, pedido);
 
                 pedido.setStatus(Pedido.StatusPedido.valueOf(statusStr));
                 pedidos.add(pedido);
@@ -143,32 +143,63 @@ public class MySQLPedidoDAO implements PedidoDAO {
         }
     }
 
-    private void carregarItens(Pedido pedido) throws SQLException {
+    private void carregarItens(Connection conn, Pedido pedido) throws SQLException {
         String sql = "SELECT * FROM item_pedido WHERE pedido_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, pedido.getId());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    long kombuskiniId = rs.getLong("kombuskini_id");
+                    int kombuskiniId = rs.getInt("kombuskini_id");
                     int quantidade = rs.getInt("quantidade");
 
-                    // Criar kombuskini placeholder
-                    Kombuskini kombuskini = new Kombuskini(
-                            kombuskiniId,
-                            "Cor " + kombuskiniId,
-                            10,
-                            "Tipo",
-                            2,
-                            "Cruz",
-                            false,
-                            15.0
-                    );
-
+                    // Busca o kombuskini real no banco de dados
+                    Kombuskini kombuskini = buscarKombuskini(conn, kombuskiniId);
                     pedido.adicionarProduto(kombuskini, quantidade);
                 }
             }
         }
+    }
+
+    private Cliente buscarCliente(Connection conn, int id) throws SQLException {
+        String sql = "SELECT * FROM clientes WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Cliente(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("telefone"),
+                            rs.getString("instagram"),
+                            rs.getString("email")
+                    );
+                }
+            }
+        }
+        // Fallback caso não seja encontrado
+        return new Cliente(id, "Cliente Desconhecido (" + id + ")", "99999-9999", null, null);
+    }
+
+    private Kombuskini buscarKombuskini(Connection conn, int id) throws SQLException {
+        String sql = "SELECT * FROM kombuskinis WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Kombuskini(
+                            rs.getLong("id"),
+                            rs.getString("cor"),
+                            rs.getInt("quantidade_nos"),
+                            rs.getString("tipo_divisoes"),
+                            rs.getInt("quantidade_divisoes"),
+                            rs.getString("tipo_cruz"),
+                            rs.getBoolean("has_tassel"),
+                            rs.getDouble("preco")
+                    );
+                }
+            }
+        }
+        // Fallback caso não seja encontrado
+        return new Kombuskini((long) id, "Cor Desconhecida", 10, "Tipo", 2, "Cruz", false, 15.0);
     }
 }

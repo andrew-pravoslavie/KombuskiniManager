@@ -12,6 +12,7 @@ public class EstoqueControl {
     private final EstoqueDAO estoqueDAO;
 
     public EstoqueControl(EstoqueDAO estoqueDAO) {
+
         this.estoqueDAO = estoqueDAO;
     }
 
@@ -49,9 +50,7 @@ public class EstoqueControl {
         return estoqueDAO.obterQuantidade(kombuskiniId.intValue());
     }
 
-    /**
-     * Consolida o Estoque geral do sistema com base em uma lista de kombuskinis conhecidos.
-     */
+    //retorna o total de kombuskini no estoque por kombuskini
     public Estoque obterEstoqueGeral(List<Kombuskini> kombuskinis) {
         int total = 0;
         for (Kombuskini k : kombuskinis) {
@@ -60,9 +59,7 @@ public class EstoqueControl {
         return new Estoque(1, kombuskinis, total);
     }
 
-    /**
-     * Retorna a lista de itens em estoque (ItemEstoque) para exibição.
-     */
+    //mostra a lista de itens do estoque
     public List<ItemEstoque> obterItensEstoque(List<Kombuskini> kombuskinis) {
         List<ItemEstoque> itens = new ArrayList<>();
         for (Kombuskini k : kombuskinis) {
