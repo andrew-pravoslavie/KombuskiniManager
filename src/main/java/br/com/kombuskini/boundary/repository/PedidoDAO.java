@@ -6,7 +6,7 @@ import br.com.kombuskini.entity.Pedido;
 import java.util.List;
 import java.util.Optional;
 
-public interface PedidoRepository {
+public interface PedidoDAO {
     Pedido save(Pedido pedido);
     void update (Pedido pedido);
     void delete (int id);
