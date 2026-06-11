@@ -20,7 +20,11 @@ public class DatabaseConnection {
                 String dbName = dotenv.get("MYSQL_DATABASE");
                 String user = dotenv.get("MYSQL_USER");
                 String password = dotenv.get("MYSQL_PASSWORD");
-                String url = "jdbc:mysql://100.119.145.58:3306/" + dbName + "?useTimezone=true&serverTimezone=UTC";
+                String host = dotenv.get("MYSQL_HOST");
+                if (host == null || host.trim().isEmpty()) {
+                    host = "localhost";
+                }
+                String url = "jdbc:mysql://" + host + ":3306/" + dbName + "?useTimezone=true&serverTimezone=UTC";
 
                 connection = DriverManager.getConnection(url, user, password);
                 System.out.println("Conexão com o banco de dados '" + dbName + "' estabelecida com sucesso!");
