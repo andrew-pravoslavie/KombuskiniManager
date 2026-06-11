@@ -8,9 +8,6 @@ bin/
 # Logs
 *.log
 
-# Arquivos de ambiente / credenciais locais (Banco de Dados, etc)
-.env
-.env.local
 .temp
 
 # IntelliJ IDEA
