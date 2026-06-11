@@ -38,9 +38,12 @@ public class Main extends Application {
         );
 
         // 5. Configurar Cena
-        Scene scene = new Scene(mainController.getView(), 1024, 768);
+        Scene scene = new Scene(mainController.getView(), 800, 600);
         primaryStage.setTitle("Kombuskini Manager");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

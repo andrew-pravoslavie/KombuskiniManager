@@ -32,7 +32,15 @@ public class DbInitializer {
                 "root",       // Padrão comum
                 "1234",       // Padrão comum
                 "123456",     // Padrão comum
-                "admin",      // Padrão comum
+                "12345678",   // Padrão comum
+                "12345",      // Padrão comum
+                "123",        // Padrão comum
+                "mysql",      // Padrão comum
+                "fatec",      // Padrão FATEC
+                "fatec123",   // Padrão FATEC
+                "fatec@123",  // Padrão FATEC
+                "Fatec123",   // Padrão FATEC
+                "Fatec@123",  // Padrão FATEC
                 envRootPass,  // Do env
                 envUserPass   // Do env
         };
